@@ -1,0 +1,2 @@
+DSN=postgres://user:pass@localhost:5432/dbname?sslmode=disable&application_name=pg2hugo&connect_timeout=5
+PRELOAD=false
