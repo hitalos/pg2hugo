@@ -26,15 +26,14 @@ CREATE TABLE IF NOT EXISTS posts (
 );
 CREATE TABLE IF NOT EXISTS attachs (
     id SERIAL PRIMARY KEY,
-    src VARCHAR NOT NULL UNIQUE,
+    filename VARCHAR NOT NULL UNIQUE,
     title VARCHAR,
     "sortPosition" SMALLINT,
-    "contentType" VARCHAR,
     source VARCHAR,
     "updatedAt" TIMESTAMPTZ(0) DEFAULT CURRENT_TIMESTAMP,
     bs BYTEA,
-    content_id INT NOT NULL
-        REFERENCES contents(id)
+    post_id INT NOT NULL
+        REFERENCES posts(id)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
 )
@@ -63,8 +62,8 @@ CREATE OR REPLACE VIEW contents AS
     FROM posts;
 CREATE OR REPLACE VIEW resources AS
     SELECT
-        src,
-        content_id::VARCHAR AS parent,
+        filename AS src,
+        post_id::VARCHAR AS parent,
         title,
         CASE source
             WHEN '' THEN NULL
@@ -73,7 +72,7 @@ CREATE OR REPLACE VIEW resources AS
         "updatedAt" AS lastmod,
         bs,
         LENGTH(bs) AS length
-   FROM attachs;
+   FROM attachments;
 ```
 
 ## Configuring
@@ -88,6 +87,6 @@ If you prefer, copy `env_example` and rename to `.env`. Save this file on same f
 Run `./pg2hugo mountpoint`. Where "mountpoint" is a content folder (or subfolder) of your site project that will be built with [hugo](https://gohugo.io).
 
 ## Credits
-This project is based on [pgfs](https://github.com/crgimenes/pgfs) and make intensive use of [libfuse](https://github.com/libfuse/libfuse) through of lib [bazil.org/fuse](bazil.org/fuse).
+This project is based on [pgfs](https://github.com/crgimenes/pgfs) and make intensive use of [libfuse](https://github.com/libfuse/libfuse) through of lib [bazil.org/fuse](https://bazil.org/fuse).
 
 Thanks to [@crgimenes](https://github.com/crgimenes) for the idea and incentive.
