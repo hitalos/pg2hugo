@@ -20,6 +20,7 @@ type file struct {
 func (f file) Attr(ctx context.Context, a *fuse.Attr) error {
 	a.Inode = f.inode
 	a.Size = f.resource.Size()
+	a.Blocks = a.Size / 512
 	a.Mode = 0444
 	a.Mtime = f.resource.LastMod
 	a.Ctime = f.resource.LastMod

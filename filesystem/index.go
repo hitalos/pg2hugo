@@ -19,6 +19,7 @@ type index struct {
 func (i index) Attr(ctx context.Context, a *fuse.Attr) error {
 	a.Inode = i.inode
 	a.Size = i.content.Size()
+	a.Blocks = a.Size / 512
 	a.Mode = 0444
 	a.Mtime = i.content.LastMod
 	a.Ctime = i.content.PublishDate
