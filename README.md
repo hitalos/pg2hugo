@@ -59,7 +59,8 @@ CREATE OR REPLACE VIEW contents AS
         "updatedAt" AS lastmod,
         author,
         tags
-    FROM posts;
+    FROM posts
+    ORDER BY id;
 CREATE OR REPLACE VIEW resources AS
     SELECT
         filename AS src,
@@ -72,7 +73,8 @@ CREATE OR REPLACE VIEW resources AS
         "updatedAt" AS lastmod,
         bs,
         LENGTH(bs) AS length
-   FROM attachments;
+   FROM attachments
+   ORDER BY sortPosition, src;
 ```
 
 ## Configuring
