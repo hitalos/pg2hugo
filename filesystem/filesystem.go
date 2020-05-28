@@ -25,11 +25,20 @@ func NewFS() (*FS, error) {
 		return nil, err
 	}
 	fs := FS{}
-	contents, err := models.ReadAllContents()
-	if err != nil {
+	if err := readAll(&fs); err != nil {
 		return nil, err
 	}
-	fs.dirs = make(map[string]*dir, len(contents))
+	log.Println("Filesystem mounted and ready to use")
+	return &fs, nil
+}
+
+func readAll(f *FS) error {
+	contents, err := models.ReadAllContents()
+	if err != nil {
+		return err
+	}
+	inodeCounter = 1
+	f.dirs = make(map[string]*dir, len(contents))
 	for _, content := range contents {
 		inodeCounter++
 		entry := fuse.Dirent{
@@ -40,10 +49,9 @@ func NewFS() (*FS, error) {
 		inodeCounter += uint64(len(content.Resources)) + 1 // one more for "index.md"
 
 		d := dir{content, entry}
-		fs.dirs[content.Path] = &d
+		f.dirs[content.Path] = &d
 	}
-	log.Println("Filesystem mounted and ready to use")
-	return &fs, nil
+	return nil
 }
 
 // Root implements Root of filesystem
