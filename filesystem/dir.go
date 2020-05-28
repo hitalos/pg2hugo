@@ -45,7 +45,7 @@ func (d dir) Lookup(ctx context.Context, name string) (fs.Node, error) {
 	}
 	for i, r := range d.content.Resources {
 		if r.Src == name {
-			return &file{d.entry.Inode + uint64(i) + 1, r}, nil
+			return &file{d.entry.Inode + uint64(i) + 2, r}, nil
 		}
 	}
 	return nil, syscall.ENOENT
