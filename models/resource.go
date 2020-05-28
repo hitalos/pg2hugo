@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"log"
 	"os"
 	"time"
 )
@@ -24,7 +23,6 @@ func ReadAllResources() ([]*Resource, error) {
 	resources := []*Resource{}
 	query := queryReadAllResources
 	if preload {
-		log.Println("Preloading binary content of resources")
 		query = queryReadAllResourcesFull
 	}
 	rows, err := db.Query(context.Background(), query)
