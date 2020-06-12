@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 
 	"bazil.org/fuse"
 	"bazil.org/fuse/fs"
@@ -43,6 +44,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("error mounting filesystem: %s", err)
 	}
+	cc := make(chan os.Signal, 1)
+	signal.Notify(cc, os.Interrupt)
+	go gracefulStop(cc, args[0])
 
 	defer func() {
 		if err := c.Close(); err != nil {
@@ -59,4 +63,13 @@ func main() {
 		log.Fatalln(c.MountError)
 	}
 	log.Println("Filesystem umounted correctly")
+}
+
+func gracefulStop(cc chan os.Signal, mountpoint string) {
+	<-cc
+	log.Printf("unmounting %q\n", mountpoint)
+	err := fuse.Unmount(mountpoint)
+	if err != nil {
+		log.Fatalf("error unmounting")
+	}
 }
