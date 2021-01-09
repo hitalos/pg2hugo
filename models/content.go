@@ -20,7 +20,7 @@ type Content struct {
 	LastMod     time.Time   `db:"lastmod" yaml:"lastmod,omitempty"`
 	Author      string      `db:"author" yaml:"author,omitempty"`
 	Tags        []string    `db:"tags" yaml:",omitempty"`
-	Resources   []*Resource `yaml:"resources"`
+	Resources   []*Resource `yaml:"resources,omitempty"`
 }
 
 func (c *Content) String() string {
