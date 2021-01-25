@@ -21,6 +21,7 @@ type Content struct {
 	Author      string      `db:"author" yaml:"author,omitempty"`
 	Tags        []string    `db:"tags" yaml:",omitempty"`
 	Resources   []*Resource `yaml:"resources,omitempty"`
+	Draft       bool        `db:"draft" yaml:"draft,omitempty"`
 }
 
 func (c *Content) String() string {
@@ -60,7 +61,8 @@ func ReadAllContents() ([]*Content, error) {
 			&content.ExpiryDate,
 			&content.LastMod,
 			&content.Author,
-			&content.Tags)
+			&content.Tags,
+			&content.Draft)
 		if err != nil {
 			return nil, err
 		}

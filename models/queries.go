@@ -3,7 +3,7 @@ package models
 const (
 	// This query must select fields: path, title, body, date, publishdate, expirydate, lastmod, author and tags.
 	// Where "tags" is an array of strings ([]varchar or []text).
-	queryReadAllContents = `SELECT path, title, body, date, publishdate, expirydate, lastmod, author, tags FROM contents`
+	queryReadAllContents = `SELECT path, title, body, date, publishdate, expirydate, lastmod, author, tags, draft FROM contents`
 
 	// This query must select fields: src, parent, title, params, lastmod and length.
 	// Where "params" is NULL or JSON(B?) format (will be converted to map[string]string)
