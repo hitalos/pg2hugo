@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS attachs (
         REFERENCES posts(id)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
-)
+);
 ```
 
 I created a view "contents" returning these fields:
@@ -84,8 +84,8 @@ CREATE OR REPLACE VIEW resources AS
         "updatedAt" AS lastmod,
         bs,
         LENGTH(bs) AS length
-   FROM attachments
-   ORDER BY sortPosition, src;
+   FROM attachs
+   ORDER BY "sortPosition", src;
 ```
 
 ## Configuring
