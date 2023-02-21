@@ -19,6 +19,8 @@ type dir struct {
 func (d dir) Attr(ctx context.Context, a *fuse.Attr) error {
 	a.Inode = d.entry.Inode
 	a.Size = 4096
+	a.Gid = uint32(os.Getgid())
+	a.Uid = uint32(os.Getuid())
 	a.Mode = os.ModeDir | 0o555
 	a.Mtime = d.content.LastMod
 	a.Ctime = d.content.PublishDate

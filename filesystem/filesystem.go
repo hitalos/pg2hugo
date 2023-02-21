@@ -62,6 +62,8 @@ func (f *FS) Root() (fs.Node, error) {
 // Attr attributes for root dir
 func (f *FS) Attr(ctx context.Context, a *fuse.Attr) error {
 	a.Inode = 1
+	a.Uid = uint32(os.Getuid())
+	a.Gid = uint32(os.Getgid())
 	a.Mode = os.ModeDir | 0o555
 	a.Size = 4096
 	return nil

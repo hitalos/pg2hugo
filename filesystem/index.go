@@ -2,6 +2,7 @@ package filesystem
 
 import (
 	"context"
+	"os"
 	"syscall"
 
 	"bazil.org/fuse"
@@ -20,7 +21,9 @@ func (i index) Attr(ctx context.Context, a *fuse.Attr) error {
 	a.Inode = i.inode
 	a.Size = i.content.Size()
 	a.Blocks = a.Size / 512
-	a.Mode = 0444
+	a.Uid = uint32(os.Getuid())
+	a.Gid = uint32(os.Getgid())
+	a.Mode = 0o444
 	a.Mtime = i.content.LastMod
 	a.Ctime = i.content.PublishDate
 	return nil
