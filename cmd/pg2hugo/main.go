@@ -52,17 +52,12 @@ func main() {
 		if err := c.Close(); err != nil {
 			log.Fatalf("Error closing FUSE: %s\n", err)
 		}
+		log.Println("Filesystem umounted correctly")
 	}()
 
 	if err := fs.Serve(c, FS); err != nil {
 		log.Fatalf("Error serving filesystem: %s\n", err)
 	}
-
-	<-c.Ready
-	if c.MountError != nil {
-		log.Fatalln(c.MountError)
-	}
-	log.Println("Filesystem umounted correctly")
 }
 
 func gracefulStop(cc chan os.Signal, mountpoint string) {
